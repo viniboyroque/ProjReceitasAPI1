@@ -94,9 +94,11 @@ export class RecipeCreateComponent implements OnInit {
     id: null,
     title: '',
     recipeBody: null,
+    difficulty: null,
+    category: null,
+    time: null,
     ingredientsRecipes: null,
-    categoriesRecipes: null,
-    dificultiesRecipes: [{'dificulty': {'name': ''}}]
+    
   };
 
 

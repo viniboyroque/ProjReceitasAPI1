@@ -3,15 +3,19 @@ export class Recipe {
         this.id = 0;
         this.title = '';
         this.recipeBody = '';
-        this.ingredientsRecipes = [{'ingredient': {'name':''}}];
-        this.categoriesRecipes = [{'category': {'name': ''}}];
-        this.dificultiesRecipes = [{'dificulty': {'name': ''}}];
+        this.difficulty = '';
+        this.category = '';
+        this.time = '';
+        this.ingredientsRecipes = [{'ingredient': {'name':'', 'quantity':''}}];
+        
         
     }
     id: number;
     title: string;
     recipeBody: string;
-    ingredientsRecipes: [{'ingredient': {'name': string}}];
-    categoriesRecipes: [{'category': {'name': string}}];
-    dificultiesRecipes: [{'dificulty': {'name': string}}];
+    difficulty: string;
+    category: string;
+    time: string;
+    ingredientsRecipes: [{'ingredient': {'name': string, 'quantity':string}}];
+   
 }

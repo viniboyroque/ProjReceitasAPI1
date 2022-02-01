@@ -88,50 +88,9 @@ namespace ProjetoReceitas.Controllers
             }
         }
 
-        [HttpGet("ByDificulty/{dificultyId}")]
-        public async Task<IActionResult> GetByDificultyId(int dificultyId)
-        {
-            try
-            {
-                var result = await _repo.GetRecipesAsyncByDificultyId(dificultyId, false);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
+        
 
-                return BadRequest($"Erro: {ex.Message}");
-            }
-        }
-
-        [HttpGet("ByCategory/{categoryId}")]
-        public async Task<IActionResult> GetByCategoryId(int categoryId)
-        {
-            try
-            {
-                var result = await _repo.GetRecipesAsyncByCategoryId(categoryId, false);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest($"Erro: {ex.Message}");
-            }
-        }
-
-        [HttpGet("ByTime/{timeId}")]
-        public async Task<IActionResult> GetByTimeId(int timeId)
-        {
-            try
-            {
-                var result = await _repo.GetRecipesAsyncByTimeId(timeId, false);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest($"Erro: {ex.Message}");
-            }
-        }
+        
         // PUT: api/Recipes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{RecipeId}")]

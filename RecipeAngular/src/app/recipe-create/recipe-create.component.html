@@ -62,16 +62,16 @@
                   </div>
                 </div>
                 <div class="form-group col-12">
-                  <p>Dificulty</p>
-                  <div class="btn-group" btnRadioGroup name='dificultyType' [(ngModel)]="recipeView.dificultiesRecipes">
+                  <p>Difficulty</p>
+                  <div class="btn-group" btnRadioGroup name='difficultyType' [(ngModel)]="recipeView.difficulty">
                     <label
-                      *ngFor="let dificulty of ['Easy', 'Moderate', 'Hard', 'Chef']"
+                      *ngFor="let difficulty of ['Easy', 'Moderate', 'Hard', 'Chef']"
                       class="btn btn-outline-primary mr-2"
-                      [btnRadio]="dificulty"
+                      [btnRadio]="difficulty"
                       tabindex="0"
                       role="button"
-                      name="dificulty"
-                      >{{ dificulty }}</label>
+                      name="difficulty"
+                      >{{ difficulty }}</label>
                   </div>
                 </div>
 

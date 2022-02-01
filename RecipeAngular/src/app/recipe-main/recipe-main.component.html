@@ -14,18 +14,18 @@
       <li>{{ingredient.ingredient.name}}</li>
     </ul>
   </div>
-  <div class="row" id="dificulty" *ngFor="let dificulty of recipe.dificultiesRecipes">
-    <ul>
+  <div class="row" id="difficulty">
       <h3>Dificulty</h3>
-      <li>{{dificulty.dificulty.name}}</li>
-    </ul>
+      <p>{{recipe.difficulty}}</p>
   </div>
-  <div class="row" id="ingredient" *ngFor="let category of recipe.categoriesRecipes">
-    <ul>
-      <h3>Category</h3>
-      <li>{{category.category.name}}</li>
-    </ul>
-  </div>
+  <div class="row" id="category">
+    <h3>Dificulty</h3>
+    <p>{{recipe.category}}</p>
+</div>
+<div class="row" id="time">
+  <h3>Dificulty</h3>
+  <p>{{recipe.time}}</p>
+</div>
   <div class="row" id="recipeBody">
     {{recipe.recipeBody}}
   </div>

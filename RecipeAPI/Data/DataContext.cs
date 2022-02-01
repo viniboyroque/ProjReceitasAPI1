@@ -19,12 +19,7 @@ namespace ProjetoReceitas.Data
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<IngredientRecipe> IngredientsRecipes { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<CategoryRecipe> CategoriesRecipes { get; set; }
-        public DbSet<Dificulty> Dificulties { get; set; }
-        public DbSet<DificultyRecipe> DificultiesRecipes { get; set; }
-        public DbSet<Time> Time { get; set; }
-        public DbSet<TimeRecipe> TimesRecipes { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -32,12 +27,7 @@ namespace ProjetoReceitas.Data
                 .HasKey(AD => new { AD.UserId, AD.RecipeId });
             builder.Entity<IngredientRecipe>()
                 .HasKey(AD => new { AD.IngredientId, AD.RecipeId });
-            builder.Entity<CategoryRecipe>()
-                .HasKey(AD => new { AD.CategoryId, AD.RecipeId });
-            builder.Entity<DificultyRecipe>()
-                .HasKey(AD => new { AD.DificultyId, AD.RecipeId });
-            builder.Entity<TimeRecipe>()
-                .HasKey(AD => new { AD.TimeId, AD.RecipeId });
+            
         }
     }
 }

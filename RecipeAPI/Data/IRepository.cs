@@ -24,9 +24,7 @@ namespace ProjetoReceitas.Data
         Task<Recipe> GetRecipeAsyncById(int recipeId, bool includeUser);
         Task<Recipe[]> GetRecipesAsyncByUserId(int userId, bool includeUser);
         Task<Recipe[]> GetRecipesAsyncByIngredientId(int ingredientId, bool includeIngredient);
-        Task<Recipe[]> GetRecipesAsyncByDificultyId(int dificultyId, bool includeDificulty);
-        Task<Recipe[]> GetRecipesAsyncByCategoryId(int categoryId, bool includeCategory);
-        Task<Recipe[]> GetRecipesAsyncByTimeId(int timeId, bool includeTime);
+      
 
 
 

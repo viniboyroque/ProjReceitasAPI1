@@ -93,11 +93,7 @@ namespace ProjetoReceitas.Data
                              .ThenInclude(ad => ad.User);
             }
 
-            query = query.Include(ig => ig.DificultiesRecipes)
-                         .ThenInclude(ad => ad.Dificulty);
-                         
-            query = query.Include(ig => ig.CategoriesRecipes)
-                         .ThenInclude(ad => ad.Category);
+           
 
             query = query.AsNoTracking()
                          .OrderBy(c => c.Id);
@@ -117,11 +113,7 @@ namespace ProjetoReceitas.Data
             query = query.Include(ig => ig.IngredientsRecipes)
                          .ThenInclude(ad => ad.Ingredient);
 
-            query = query.Include(ig => ig.DificultiesRecipes)
-                         .ThenInclude(ad => ad.Dificulty);
-                         
-            query = query.Include(ig => ig.CategoriesRecipes)
-                         .ThenInclude(ad => ad.Category);
+            
             
 
             query = query.AsNoTracking()
@@ -130,6 +122,7 @@ namespace ProjetoReceitas.Data
 
             return await query.FirstOrDefaultAsync();
         }
+        
         public async Task<Recipe[]> GetRecipesAsyncByUserId(int userId, bool includeUser)
         {
             IQueryable<Recipe> query = _context.Recipes;
@@ -140,11 +133,7 @@ namespace ProjetoReceitas.Data
                              .ThenInclude(d => d.User);
             }
 
-            query = query.Include(ig => ig.DificultiesRecipes)
-                         .ThenInclude(ad => ad.Dificulty);
-                         
-            query = query.Include(ig => ig.CategoriesRecipes)
-                         .ThenInclude(ad => ad.Category);
+            
 
             query = query.AsNoTracking()
                          .OrderBy(recipe => recipe.Id)
@@ -168,54 +157,7 @@ namespace ProjetoReceitas.Data
 
             return await query.ToArrayAsync();
         }
-        public async Task<Recipe[]> GetRecipesAsyncByDificultyId(int dificultyId, bool includeDificulty)
-        {
-            IQueryable<Recipe> query = _context.Recipes;
-
-            if (includeDificulty)
-            {
-                query = query.Include(p => p.DificultiesRecipes)
-                             .ThenInclude(d => d.Dificulty);
-            }
-
-            query = query.AsNoTracking()
-                         .OrderBy(recipe => recipe.Id)
-                         .Where(recipe => recipe.DificultiesRecipes.Any(ad => ad.DificultyId == dificultyId));
-
-            return await query.ToArrayAsync();
-        }
-        public async Task<Recipe[]> GetRecipesAsyncByCategoryId(int categoryId, bool includeCategory)
-        {
-            IQueryable<Recipe> query = _context.Recipes;
-
-            if (includeCategory)
-            {
-                query = query.Include(p => p.CategoriesRecipes)
-                             .ThenInclude(d => d.Category);
-            }
-
-            query = query.AsNoTracking()
-                         .OrderBy(recipe => recipe.Id)
-                         .Where(recipe => recipe.CategoriesRecipes.Any(ad => ad.CategoryId == categoryId));
-
-            return await query.ToArrayAsync();
-        }
-        public async Task<Recipe[]> GetRecipesAsyncByTimeId(int timeId, bool includeTime)
-        {
-            IQueryable<Recipe> query = _context.Recipes;
-
-            if (includeTime)
-            {
-                query = query.Include(p => p.TimesRecipes)
-                             .ThenInclude(d => d.Time);
-            }
-
-            query = query.AsNoTracking()
-                         .OrderBy(recipe => recipe.Id)
-                         .Where(recipe => recipe.TimesRecipes.Any(ad => ad.TimeId == timeId));
-
-            return await query.ToArrayAsync();
-        }
+        
 
     }
 }
