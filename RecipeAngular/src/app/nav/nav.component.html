@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a routerLink="dashboard" class="navbar-brand">RecipesProject</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a routerLink="home" routerLinkActive="active" class="nav-link" aria-current="page">Home</a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="recipe" routerLinkActive="active" class="nav-link">Recipes</a>
+          </li>
+        </ul>
+
+        <div [ngClass]="loginbar">
+          <div *ngIf="loggedin()" class="dropdown mr-5" dropdown>
+            <a href="#" class="dropdown-toggle text-light" dropdownToggle (click)="false">
+                Welcome {{loggedinUserName }}
+            </a>
+            <div class="dropdown-menu" *dropdownMenu>
+                <a href="#" 
+                class="dropdown-item"
+                routerLinkActive="active" 
+                routerLink="userDashboard">
+                <i class="fas fa-tachometer-alt"></i> View Dashboard</a>
+                <a href="#" class="dropdown-item"><i class="far fa-user-circle"></i> My Profile</a>                  
+                <a href="#" class="dropdown-item"><i class="fas fa-key"></i> Change Password</a>
+                <a (click)='onLogout()' class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+          </div>
+        
+        <div *ngIf="!loggedin()" class="navbar-right" (ngSubmit)="onLogin(loginForm)">
+          <ul class="nav navbar-nav navbar-right">
+              <li *ngIf="!loggedin()" class="nav-item">
+                <a 
+                  class="nav-link" 
+                  routerLinkActive="active" 
+                  routerLink="signup">
+                  Register
+                </a>
+              </li>
+              <li *ngIf="!loggedin()" class="nav-item">
+                <a 
+                  class="nav-link" 
+                  routerLinkActive="active" 
+                  routerLink="login">
+                  Login
+                </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+      </div>
+    </div>
+</nav>
+
+
+
+
+
+

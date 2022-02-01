@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="row" id="recipeImg">
+    <img src="assets/imagesTest/mewtwo.jpg" alt="first slide" style="display: block; width: 100%; height: fit-content;">
+  </div>
+  <div class="row" id="recipeTitle">
+    {{recipe.title}}
+  </div>
+  <div class="row" id="recipeId">
+    {{recipe.id}}
+  </div>
+  <h3>Ingredients</h3>
+  <div class="row" id="ingredient" *ngFor="let ingredient of recipe.ingredientsRecipes">
+    <ul>
+      <li>{{ingredient.ingredient.name}}</li>
+    </ul>
+  </div>
+  <div class="row" id="dificulty" *ngFor="let dificulty of recipe.dificultiesRecipes">
+    <ul>
+      <h3>Dificulty</h3>
+      <li>{{dificulty.dificulty.name}}</li>
+    </ul>
+  </div>
+  <div class="row" id="ingredient" *ngFor="let category of recipe.categoriesRecipes">
+    <ul>
+      <h3>Category</h3>
+      <li>{{category.category.name}}</li>
+    </ul>
+  </div>
+  <div class="row" id="recipeBody">
+    {{recipe.recipeBody}}
+  </div>
+  <app-cards-list></app-cards-list>
+</div>
+
