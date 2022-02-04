@@ -22,7 +22,17 @@ import { HttpClient } from '@angular/common/http';
     }
   
     post(recipe: Recipe){
-      return this.http.post(`${this.baseUrl}`, recipe);
+      // return this.http.post(`${this.baseUrl}`, recipe);
+      let newRec = [recipe];
+
+      if (localStorage.getItem('newRecipe')){
+        newRec = JSON.parse(localStorage.getItem('newRecipe'));
+        newRec = [recipe, ...newRec];
+      }else{
+        newRec = [recipe];
+      }
+
+      localStorage.setItem('newRecipe', JSON.stringify(newRec))
     }
     put(recipe: Recipe){
       return this.http.put(`${this.baseUrl}/${recipe.id}`, recipe);

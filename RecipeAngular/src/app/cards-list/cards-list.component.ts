@@ -12,6 +12,10 @@ export class CardsListComponent implements OnInit {
 
 
   public cards: Recipe[];
+  public difficulty: '';
+  SortbyParam: '';
+  SearchDifficulty = '';
+
   constructor(private recipeService: RecipeService, private route: ActivatedRoute,) { }
 
   ngOnInit() {
@@ -33,9 +37,25 @@ export class CardsListComponent implements OnInit {
 
   loadRecipe(){
     this.recipeService.getAll().subscribe(
-      (cards: Recipe[]) => {this.cards = cards;},
+      (cards: Recipe[]) => {this.cards = cards;
+      //   // To get from local Storage
+      // const newRecipe = JSON.parse(localStorage.getItem('newRecipe'));
+      // //------------------------
+      // if (newRecipe){
+      //   this.cards = [newRecipe, ...this.cards];
+      // }
+    },
       (erro: any) => {console.error(erro)}
     );
+  }
+
+  onDifficultyFilter(){
+    this.SearchDifficulty = this.difficulty;
+  }
+
+  onDifficultyFilterClear(){
+    this.SearchDifficulty = '';
+    this.difficulty = '';
   }
 
 }

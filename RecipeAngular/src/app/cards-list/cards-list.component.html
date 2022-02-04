@@ -1,5 +1,16 @@
+<label >Filter difficulty: &nbsp;</label>
+<input [(ngModel)]='difficulty'>
+<button type="button" class="btn btn-white btn-outline-dark" (click)="onDifficultyFilter()">Search</button>
+<button type="button" class="btn btn-white btn-outline-dark" (click)="onDifficultyFilterClear()">Clear</button>
+
+<label>Sort by &nbsp;</label>
+<select [(ngModel)] = 'SortbyParam'>
+  <option value="difficulty">difficulty</option>
+  <option value="category">category</option>
+</select>
+
 <div class="row">
-  <div *ngFor="let card of cards" class="col-sm-4">
+  <div *ngFor="let card of cards|filter:SearchDifficulty:'difficulty'|sort:[SortbyParam]" class="col-sm-4">
     <div class="shadow-lg p-3 mb-4">
         <app-cards [recipe]="card"></app-cards>
     </div>

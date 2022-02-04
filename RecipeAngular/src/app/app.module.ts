@@ -25,6 +25,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { CardsListComponent } from './cards-list/cards-list.component';
+import { FilterPipe } from './Pipes/filter.pipe';
+import { SortPipe } from './Pipes/sort.pipe';
 
 
 
@@ -40,7 +42,9 @@ import { CardsListComponent } from './cards-list/cards-list.component';
       SignupComponent,
       RecipeMainComponent,
       RecipeCreateComponent,
-      CardsListComponent
+      CardsListComponent,
+      FilterPipe,
+      SortPipe
    ],
   imports: [
     BrowserModule,
