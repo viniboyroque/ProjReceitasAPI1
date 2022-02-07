@@ -16,8 +16,8 @@
 
         <div [ngClass]="loginbar">
           <div *ngIf="loggedin()" class="dropdown mr-5" dropdown>
-            <a href="#" class="dropdown-toggle text-light" dropdownToggle (click)="false">
-                Welcome {{loggedinUserName }}
+            <a href="#" class="dropdown-toggle text-dark" dropdownToggle (click)="false">
+                Welcome {{loggedinUser }}
             </a>
             <div class="dropdown-menu" *dropdownMenu>
                 <a href="#" 
@@ -31,7 +31,7 @@
             </div>
           </div>
         
-        <div *ngIf="!loggedin()" class="navbar-right" (ngSubmit)="onLogin(loginForm)">
+        <div *ngIf="!loggedin()" class="navbar-right">
           <ul class="nav navbar-nav navbar-right">
               <li *ngIf="!loggedin()" class="nav-item">
                 <a 

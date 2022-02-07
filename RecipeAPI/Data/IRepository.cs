@@ -14,16 +14,26 @@ namespace ProjetoReceitas.Data
         Task<bool> SaveChangesAsync();
 
         //USER
-        Task<User[]> GetAllUsersAsync(bool includeRecipe);
+        Task<User> Authenticate(string name, string password);
+
+        void Register(string name, string password, string email);
+        
+
+        Task<bool> UserAlreadyExists(string name);
+        Task<IEnumerable<User>> GetAllUsersAsync(bool includeRecipe);
         Task<User> GetUserAsyncById(int userId, bool includeRecipe);
         Task<User[]> GetUsersAsyncByRecipeId(int recipeId, bool includeRecipe);
 
 
         //RECIPE
-        Task<Recipe[]> GetAllRecipesAsync(bool includeUser);
+        Task<IEnumerable<Recipe>> GetAllRecipesAsync(bool includeUser);
         Task<Recipe> GetRecipeAsyncById(int recipeId, bool includeUser);
-        Task<Recipe[]> GetRecipesAsyncByUserId(int userId, bool includeUser);
-        Task<Recipe[]> GetRecipesAsyncByIngredientId(int ingredientId, bool includeIngredient);
+
+        void AddRecipe(Recipe recipe);
+        void DeleteRecipe(int id);
+
+        Task<IEnumerable<Recipe>> GetRecipesAsyncByUserId(int userId, bool includeUser);
+        Task<IEnumerable<Recipe>> GetRecipesAsyncByIngredientId(int ingredientId, bool includeIngredient);
       
 
 

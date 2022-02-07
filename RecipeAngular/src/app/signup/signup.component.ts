@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '../models/User';
-import { UserService } from '../service/user.service';
 import { AlertifyService } from '../service/alertify.service';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -15,7 +15,7 @@ export class SignupComponent implements OnInit {
   user: User;
   userSubmitted: boolean;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private alertify: AlertifyService) { }
+  constructor(private fb: FormBuilder, private authService: AuthService, private alertify: AlertifyService) { }
 
   ngOnInit() {
     // this.registerationForm = new FormGroup({
@@ -30,7 +30,7 @@ export class SignupComponent implements OnInit {
   createRegistrationForm() {
     this.registerationForm = this.fb.group({
       id: [null],
-      userName: [null, Validators.required],
+      name: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required, Validators.minLength(8)]],
       confirmPassword: [null, [Validators.required]]
@@ -43,8 +43,8 @@ export class SignupComponent implements OnInit {
   // ------------------------------------
   // Getter methods for all form controls
   // ------------------------------------
-  get userName() {
-    return this.registerationForm.get('userName') as FormControl;
+  get name() {
+    return this.registerationForm.get('name') as FormControl;
   }
   get id() {
     return this.registerationForm.get('id') as FormControl;
@@ -64,14 +64,17 @@ export class SignupComponent implements OnInit {
   onSubmit() {
     console.log(this.registerationForm.value);
     this.userSubmitted = true;
+
     if (this.registerationForm.valid){
       // this.user = Object.assign(this.user, this.registerationForm.value);
-      this.userService.addUser(this.userData());
-      this.registerationForm.reset();
-      this.userSubmitted = false;
-      this.alertify.success('Congrats, you are registered');
-    } else {
-      this.alertify.error('Kindly provide the required fields');
+      this.authService.registerUser(this.userData()).subscribe(() => {
+          this.registerationForm.reset();
+          this.userSubmitted = false;
+          this.alertify.success('Congrats, you are registered');
+      }, error => {
+          console.log(error);
+          this.alertify.error(error.error);
+      });
     }
     
   }
@@ -79,7 +82,7 @@ export class SignupComponent implements OnInit {
   userData(): User{
     return this.user = {
     id: this.id.value,
-    userName: this.userName.value,
+    name: this.name.value,
     email: this.email.value,
     password: this.password.value
     }

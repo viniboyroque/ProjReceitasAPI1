@@ -1,17 +1,17 @@
 <div class="row">
   <div class="col-6 m-auto">
   <div class="card m-auto">
-    <div class="card-header">
-      Register
+    <div class="card-header bg-primary">
+      <h3>Register</h3>
     </div>
     <div class="card-body">
       <form [formGroup]="registerationForm" (ngSubmit)="onSubmit()">
         <div class="form-group col-12">
             <label for="name" class="form-label">Name</label>
             <input type="text" class="form-control"
-            formControlName="userName"
+            formControlName="name"
             >
-            <span *ngIf="!userName.valid && (userName.touched || userSubmitted)"
+            <span *ngIf="!name.valid && (name.touched || userSubmitted)"
             class="error-block">
               Please provide name
             </span>

@@ -7,6 +7,8 @@ export class FilterPipe implements PipeTransform {
 
   transform(value: any[], filterString: string, recipeName: string): any[] {
     const resultArray = [];
+    
+    
     if(value.length === 0 || filterString ==='' || recipeName === '') {
       return value;
     }

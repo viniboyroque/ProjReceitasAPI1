@@ -29,6 +29,7 @@ export class RecipeMainComponent implements OnInit, OnDestroy {
       this.recipeServiceSubscription = this.recipeService
         .getById(id)
         .subscribe((recipe) => (this.recipe = recipe));
+        console.log(this.recipe);
     });
   }
 

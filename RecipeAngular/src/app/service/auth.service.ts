@@ -1,4 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
+import { UserForLogin } from '../Interfaces/UserForLogin';
 import { User } from '../models/User';
 
 @Injectable({
@@ -6,27 +9,20 @@ import { User } from '../models/User';
 })
 export class AuthService {
 
-  constructor() { }
+  baseUrl = environment.urlPrincipal;
 
-  login(member: any) {
-    const user = this.getUser(member);
-    if (user) {
-      localStorage.setItem('token', user.userName);
-    }
-    return user;
-  }
+  constructor(private http: HttpClient) { }
 
-  logout() {
-    localStorage.removeItem('token');
-  }
+  
 
   // Get single user
-  getUser(user: any) {
-        let UsersArray = [];
-        if (localStorage.getItem('Users')) {
-          UsersArray = JSON.parse(localStorage.getItem('Users'));
-        }
-        return UsersArray.find(p => p.userName === user.userName && p.password === user.password );
+  authUser(user: User) {
+      return this.http.post(this.baseUrl + '/api/Users/login', user);
+    
+  }
+
+  registerUser(user: User) {
+    return this.http.post(this.baseUrl + '/api/Users/register', user);
   }
 
 }

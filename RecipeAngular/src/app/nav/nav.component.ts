@@ -14,33 +14,26 @@ export class NavComponent implements OnInit {
   member = new User();
   showNavbar = false;
   loginbar = 'nav-login-desktop';
-  loggedinUserName: string;
+  loggedinUser: string;
   loginForm: NgForm;
 
   constructor(private authService: AuthService, private alertify: AlertifyService) { }
 
   ngOnInit() {
   }
-  onLogin(form: NgForm) {
-    let user = this.authService.login(this.member);
-    if (user){
-      this.alertify.success('Successfully logged in');
-      form.reset();
-    } else {
-      this.alertify.error('User ID or password is wrong');
-    }
+  
+loggedin() {
+    this.loggedinUser = localStorage.getItem('name');
+    return this.loggedinUser;
   }
-
   onLogout() {
-    this.authService.logout();
-    this.alertify.success('Logged out Successful')
+    localStorage.removeItem('name');
+    localStorage.removeItem('token');
+    localStorage.removeItem('id');
+    this.alertify.success('Logged out Successful');
   }
 
-  loggedin() {
-    const token = localStorage.getItem('token');
-    this.loggedinUserName = token;
-    return token;
-  }
+  
 
   onToggleNavbar() {
     this.showNavbar = !this.showNavbar;

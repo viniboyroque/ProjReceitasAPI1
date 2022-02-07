@@ -137,3 +137,6 @@ C:\Users\big_h\source\repos\ProjReceitasAPI1\RecipeAPI\obj\Debug\net5.0\RecipeAP
 C:\Users\big_h\source\repos\ProjReceitasAPI1\RecipeAPI\obj\Debug\net5.0\ref\RecipeAPI.dll
 C:\Users\big_h\source\repos\ProjReceitasAPI1\RecipeAPI\obj\Debug\net5.0\RecipeAPI.pdb
 C:\Users\big_h\source\repos\ProjReceitasAPI1\RecipeAPI\obj\Debug\net5.0\RecipeAPI.genruntimeconfig.cache
+C:\Users\big_h\source\repos\ProjReceitasAPI1\RecipeAPI\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\big_h\source\repos\ProjReceitasAPI1\RecipeAPI\bin\Debug\net5.0\CloudinaryDotNet.dll
+C:\Users\big_h\source\repos\ProjReceitasAPI1\RecipeAPI\bin\Debug\net5.0\Microsoft.Extensions.WebEncoders.dll

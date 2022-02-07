@@ -1,3 +1,5 @@
+import { Photo } from "../Interfaces/Photo";
+
 export class Recipe {
     constructor() {
         this.id = 0;
@@ -6,16 +8,20 @@ export class Recipe {
         this.difficulty = '';
         this.category = '';
         this.time = '';
-        this.ingredientsRecipes = [{'ingredient': {'name':'', 'quantity':''}}];
+        this.ingredients = [{'name':'', 'quantity':''}];
+        this.UserId = 0;
+        this.photos= [{'imageUrl': '', 'publicId': ''}];
         
         
     }
-    id: number;
+    id?: number;
     title: string;
     recipeBody: string;
     difficulty: string;
     category: string;
     time: string;
-    ingredientsRecipes: [{'ingredient': {'name': string, 'quantity':string}}];
+    ingredients: [{'name': string, 'quantity':string}];
+    UserId: number;
+    photos: [{'imageUrl': string, 'publicId': string}];
    
 }

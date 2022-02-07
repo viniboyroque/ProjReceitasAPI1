@@ -2,21 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoReceitas.Data;
 using ProjetoReceitas.Models;
+using RecipeAPI.Data;
 
 namespace ProjetoReceitas.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class RecipesController : ControllerBase
     {
-       private readonly IRepository _repo;
-        public RecipesController(IRepository repo)
+        private readonly IRepository _repo;
+        private readonly IPhotoService photoService;
+        public RecipesController(IRepository repo, IPhotoService photoService)
         {
+            this.photoService = photoService;
             _repo = repo;
 
         }
@@ -24,7 +29,8 @@ namespace ProjetoReceitas.Controllers
 
         // GET: api/Recipes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Recipe>>> Get()
+        [AllowAnonymous]
+        public async Task<ActionResult> Get()
         {
             try
             {
@@ -42,6 +48,7 @@ namespace ProjetoReceitas.Controllers
 
         // GET: api/Recipes/5
         [HttpGet("{RecipeId}")]
+        [AllowAnonymous]
         public async Task<ActionResult<Recipe>> GetByRecipeId(int RecipeId)
         {
             try
@@ -72,7 +79,7 @@ namespace ProjetoReceitas.Controllers
                 return BadRequest($"Erro: {ex.Message}");
             }
         }
-        
+
         [HttpGet("ByIngredient/{ingredientId}")]
         public async Task<IActionResult> GetByIngredientId(int ingredientId)
         {
@@ -88,9 +95,9 @@ namespace ProjetoReceitas.Controllers
             }
         }
 
-        
 
-        
+
+
         // PUT: api/Recipes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{RecipeId}")]
@@ -98,20 +105,20 @@ namespace ProjetoReceitas.Controllers
         {
             try
             {
-                 var user = await _repo.GetRecipeAsyncById(RecipeId, false);
-                 if(user == null) return NotFound();
+                var user = await _repo.GetRecipeAsyncById(RecipeId, false);
+                if (user == null) return NotFound();
 
-                 _repo.Update(recipeModel);
+                _repo.Update(recipeModel);
 
-                 if(await _repo.SaveChangesAsync())
-                 {
-                     return Ok(recipeModel);
-                 }
+                if (await _repo.SaveChangesAsync())
+                {
+                    return Ok(recipeModel);
+                }
             }
             catch (Exception ex)
             {
-                
-                return BadRequest ($"Erro: {ex.Message}");
+
+                return BadRequest($"Erro: {ex.Message}");
             }
 
             return BadRequest();
@@ -120,23 +127,14 @@ namespace ProjetoReceitas.Controllers
         // POST: api/Recipes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Recipe>> Post(Recipe recipeModel)
+        [AllowAnonymous]
+        public async Task<ActionResult> Post(Recipe recipeModel)
         {
-             try
-            {
-                 _repo.Add(recipeModel);
-                 if(await _repo.SaveChangesAsync())
-                 {
-                     return Ok(recipeModel);
-                 }
-            }
-            catch (Exception ex)
-            {
-                
-                return BadRequest ($"Erro: {ex.Message}");
-            }
 
-            return BadRequest();
+
+            _repo.AddRecipe(recipeModel);
+            await _repo.SaveChangesAsync();
+            return StatusCode(201);
         }
 
         // DELETE: api/Recipes/5
@@ -145,28 +143,45 @@ namespace ProjetoReceitas.Controllers
         {
             try
             {
-                 var recipe = await _repo.GetRecipeAsyncById(RecipeId, false);
-                 if(recipe == null) return NotFound("Recipe not found!");
+                var recipe = await _repo.GetRecipeAsyncById(RecipeId, false);
+                if (recipe == null) return NotFound("Recipe not found!");
 
-                 _repo.Delete(recipe);
+                _repo.Delete(recipe);
 
-                 if(await _repo.SaveChangesAsync())
-                 {
-                     return Ok(new {message = "Deleted"});
-                 }
+                if (await _repo.SaveChangesAsync())
+                {
+                    return Ok(new { message = "Deleted" });
+                }
             }
             catch (Exception ex)
             {
-                
-                return BadRequest ($"Erro: {ex.Message}");
+
+                return BadRequest($"Erro: {ex.Message}");
             }
 
             return BadRequest();
         }
 
-        // private bool UserExists(int id)
-        // {
-        //     return _context.Users.Any(e => e.Id == id);
-        // }
+        [HttpPost("photo/{recipeId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult> PostPhoto(IFormFile file, int recipeId)
+        {
+            var result = await photoService.UploadPhotoAsync(file);
+            if(result.Error != null)
+                return BadRequest(result.Error.Message);
+            var recipe = await _repo.GetRecipeAsyncById(recipeId, false);
+
+            var photo = new Photo
+            {
+                ImageUrl = result.SecureUrl.AbsoluteUri,
+                PublicId = result.PublicId
+            };
+            
+            recipe.Photos.Add(photo);
+            await _repo.SaveChangesAsync();
+
+            return Ok(201);
+            
+        }
     }
 }

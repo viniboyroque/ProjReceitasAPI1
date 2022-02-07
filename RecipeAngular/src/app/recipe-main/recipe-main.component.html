@@ -1,6 +1,6 @@
 <div class="container">
-  <div class="row" id="recipeImg">
-    <img src="assets/imagesTest/mewtwo.jpg" alt="first slide" style="display: block; width: 100%; height: fit-content;">
+  <div class="row" id="recipeImg" *ngFor="let photo of recipe.photos">
+    <img src={{photo.imageUrl}} alt="first slide" style="display: block; width: 100%; height: fit-content;">
   </div>
   <div class="row" id="recipeTitle">
     {{recipe.title}}
@@ -8,22 +8,22 @@
   <div class="row" id="recipeId">
     {{recipe.id}}
   </div>
-  <h3>Ingredients</h3>
-  <div class="row" id="ingredient" *ngFor="let ingredient of recipe.ingredientsRecipes">
+  <h5>Ingredients</h5>
+  <div class="row" id="ingredient" *ngFor="let ingredient of recipe.ingredients">
     <ul>
-      <li>{{ingredient.ingredient.name}}</li>
+      <li>{{ingredient.quantity}} - {{ingredient.name}}</li>
     </ul>
   </div>
   <div class="row" id="difficulty">
-      <h3>Dificulty</h3>
+      <h5>Dificulty</h5>
       <p>{{recipe.difficulty}}</p>
   </div>
   <div class="row" id="category">
-    <h3>Dificulty</h3>
+    <h5>Category</h5>
     <p>{{recipe.category}}</p>
 </div>
 <div class="row" id="time">
-  <h3>Dificulty</h3>
+  <h5>Time</h5>
   <p>{{recipe.time}}</p>
 </div>
   <div class="row" id="recipeBody">

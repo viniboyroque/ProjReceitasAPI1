@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RecipeAPI.Migrations
 {
@@ -21,6 +22,22 @@ namespace RecipeAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Password = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    PasswordKey = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Recipes",
                 columns: table => new
                 {
@@ -30,26 +47,18 @@ namespace RecipeAPI.Migrations
                     RecipeBody = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Difficulty = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Time = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Time = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Recipes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Recipes_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,25 +86,21 @@ namespace RecipeAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserRecipes",
+                name: "Photo",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RecipeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRecipes", x => new { x.UserId, x.RecipeId });
+                    table.PrimaryKey("PK_Photo", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserRecipes_Recipes_RecipeId",
+                        name: "FK_Photo_Recipes_RecipeId",
                         column: x => x.RecipeId,
                         principalTable: "Recipes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserRecipes_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -106,9 +111,15 @@ namespace RecipeAPI.Migrations
                 column: "RecipeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRecipes_RecipeId",
-                table: "UserRecipes",
+                name: "IX_Photo_RecipeId",
+                table: "Photo",
                 column: "RecipeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Recipes_UserId",
+                table: "Recipes",
+                column: "UserId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -117,7 +128,7 @@ namespace RecipeAPI.Migrations
                 name: "IngredientsRecipes");
 
             migrationBuilder.DropTable(
-                name: "UserRecipes");
+                name: "Photo");
 
             migrationBuilder.DropTable(
                 name: "Ingredients");

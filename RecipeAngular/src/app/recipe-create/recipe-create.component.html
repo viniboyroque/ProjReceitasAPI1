@@ -2,7 +2,7 @@
 <div class="row mb-5">
   <div class="col-8">
     <div class="card">
-      <div class="card-header">
+      <div class="card-header bg-primary">
         <h3>Create your recipe!</h3>
       </div>
       <div class="card-body">
@@ -10,6 +10,20 @@
           <div class="tab-panel">
             <tabset class="member-tabset" #formTabs>
               <tab heading="Your Recipe">
+                <div class="form-group col-12">
+                  <label>YourId</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    value={{loggedinUser}}
+                    formControlName="UserId"
+                    placeholder={{loggedinUser}}
+                    
+                    />
+                    
+                  
+                </div>
+                
                 <div class="form-group col-12">
                   <p>Time</p>
                   <div class="btn-group" btnRadioGroup formControlName='time'>
@@ -61,6 +75,7 @@
                     minlength="5"
                     [(ngModel)]="recipeView.title"
                     />
+                   
                   <!-- <span
                     *ngIf="!recipeTitle.valid && recipeTitle.touched"
                     class="error-block">
@@ -92,8 +107,8 @@
               <tab heading="Photos">
                 <div class="form-group col-12">
                   <div class="photo-control">
-                    <button class="mt-5" type="button">Upload</button> <br />
-                    This is under construction
+                    <input type="file" >
+                    <button class="mt-5" type="button" >Upload</button> <br />
                   </div>
                 </div>
                 <div class="form-group col-12">
@@ -117,7 +132,7 @@
     </div>
   </div>
   <div class="col-4">
-    <div class="card-header">
+    <div class="card-header bg-primary">
       <h3>Your Recipe Preview</h3>
       <div>
         <app-cards [recipe]="recipeView"></app-cards>

@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -18,8 +19,9 @@ export class RecipeCreateComponent implements OnInit {
   // @ViewChild('Form') addRecipeForm: NgForm;
   @ViewChild('formTabs') formTabs: TabsetComponent;
 
+  
+  loggedinUser: number;
   addRecipeForm: FormGroup;
-
   recipe: Recipe;
 
   recipeView: Recipe = {
@@ -29,15 +31,19 @@ export class RecipeCreateComponent implements OnInit {
     difficulty: null,
     category: null,
     time: null,
-    ingredientsRecipes: null,
+    ingredients: null,
+    UserId: null,
+    photos: null
     
   };
 
 
-  constructor(private fb: FormBuilder, private recipeService: RecipeService, private router: Router, private alertify: AlertifyService) { }
+  constructor(private fb: FormBuilder, private recipeService: RecipeService, private router: Router, private alertify: AlertifyService, private http: HttpClient) { }
 
   ngOnInit() {
     this.CreateAddRecipeForm();
+    this.loggedinUser = Number(localStorage.getItem('id'));
+
   }
 
   CreateAddRecipeForm() {
@@ -48,7 +54,9 @@ export class RecipeCreateComponent implements OnInit {
         difficulty: [null, Validators.required],
         category: [null, Validators.required],
         time: [null, Validators.required],
-        ingredientsRecipes: [null]
+        ingredients: [null],
+        UserId: [this.loggedinUser],
+        photos: [null]
       });
   }
 
@@ -64,12 +72,15 @@ export class RecipeCreateComponent implements OnInit {
     
     console.log(this.addRecipeForm.value);
     if (this.addRecipeForm.valid){
-      this.recipeService.post(this.recipeData());
-      this.addRecipeForm.reset();
-      this.alertify.success('Congrats, recipe subimitted');
-      this.router.navigate(['/home'])
-    } else {
-      this.alertify.error('Kindly provide the required fields');
+      this.recipeService.post(this.recipeData()).subscribe(
+        () => {
+          this.addRecipeForm.reset();
+          this.alertify.success('Congrats, recipe subimitted');
+          this.router.navigate(['/home'])
+        }, error => {
+          this.alertify.error('Kindly provide the required fields');
+        });
+      
     }
   }
 
@@ -77,13 +88,14 @@ export class RecipeCreateComponent implements OnInit {
 
   recipeData(): Recipe{
     return this.recipe = {
-    id: this.id.value,
     title: this.title.value,
     recipeBody: this.recipeBody.value,
     difficulty: this.difficulty.value,
     category: this.category.value,
     time: this.time.value,
-    ingredientsRecipes: this.ingredientsRecipes.value
+    ingredients: this.ingredients.value,
+    UserId: this.loggedinUser,
+    photos: this.photos.value
     }
   }
   // console.log(this.registerationForm.value);
@@ -97,7 +109,7 @@ export class RecipeCreateComponent implements OnInit {
   //   } else {
   //     this.alertify.error('Kindly provide the required fields');
   //   }
-
+  
 
   selectTab(tabId: number) {
     this.formTabs.tabs[tabId].active = true;
@@ -124,8 +136,14 @@ export class RecipeCreateComponent implements OnInit {
   get time() {
     return this.addRecipeForm.get('time') as FormControl;
   }
-  get ingredientsRecipes() {
-    return this.addRecipeForm.get('ingredientsRecipes') as FormControl;
+  get ingredients() {
+    return this.addRecipeForm.get('ingredients') as FormControl;
+  }
+  get UserId() {
+    return this.addRecipeForm.get('UserId') as FormControl;
+  }
+  get photos() {
+    return this.addRecipeForm.get('photos') as FormControl;
   }
   
   // ------------------------

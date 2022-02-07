@@ -33,10 +33,12 @@ namespace ProjetoReceitas.Models
 
         public string Time { get; set; }
 
-        //public int UserId { get; set; }
-        //public User User { get; set; }
-        public IEnumerable<UserRecipe> UserRecipes { get; set; }
-        public IEnumerable<IngredientRecipe> IngredientsRecipes { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
+        // public IEnumerable<UserRecipe> UserRecipes { get; set; }
+
+        public ICollection<Photo> Photos{ get; set;}
+        public ICollection<Ingredient> Ingredients { get; set; }
         
 
     }
